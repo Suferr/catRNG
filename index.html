@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Number Generator Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        button {
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Random Number Generator Game</h1>
+    <p>Click the button to roll the dice:</p>
+    <button onclick="rollDice()">Roll Dice</button>
+    <p id="result"></p>
+    <script>
+        // Function to roll the dice and generate a random number
+        function rollDice() {
+            const min = 1;
+            const max = 64; // Total possibilities for all rarities
+            const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+            let resultText;
+
+            // Determine the rarity based on the random number
+            if (randomNumber <= 32) {
+                resultText = "You got Common 1 in 2!";
+            } else if (randomNumber <= 48) {
+                resultText = "You got Uncommon 1 in 4!";
+            } else if (randomNumber <= 60) {
+                resultText = "You got Rare 1 in 16!";
+            } else if (randomNumber <= 63) {
+                resultText = "You got Epic 1 in 32!";
+            } else {
+                resultText = "You got Legendary 1 in 64!";
+            }
+
+            document.getElementById('result').textContent = resultText;
+        }
+    </script>
+</body>
+</html>
