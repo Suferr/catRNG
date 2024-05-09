@@ -25,14 +25,35 @@
             margin-top: 10px;
             cursor: pointer;
         }
+
+        #rollHistory {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .rollItem {
+            margin: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .rollItem button {
+            margin-left: 10px;
+            background-color: #f44336;
+        }
     </style>
 </head>
 <body>
     <h1>Random Number Generator Game</h1>
     <p>Click the button to roll the dice:</p>
     <button onclick="rollDice()">Roll Dice</button>
+    <button onclick="clearRollHistory()">Clear Roll History</button>
     <p id="result"></p>
+    <div id="rollHistory"></div>
+
     <script>
+        let rolls = [];
+
         // Function to roll the dice and generate a random number
         function rollDice() {
             const min = 1;
@@ -42,18 +63,47 @@
 
             // Determine the rarity based on the random number
             if (randomNumber <= 32) {
-                resultText = "You got Common 1 in 2!";
+                resultText = "Common (1 in 2)";
             } else if (randomNumber <= 48) {
-                resultText = "You got Uncommon 1 in 4!";
+                resultText = "Uncommon (1 in 4)";
             } else if (randomNumber <= 60) {
-                resultText = "You got Rare 1 in 16!";
+                resultText = "Rare (1 in 16)";
             } else if (randomNumber <= 63) {
-                resultText = "You got Epic 1 in 32!";
+                resultText = "Epic (1 in 32)";
             } else {
-                resultText = "You got Legendary 1 in 64!";
+                resultText = "Legendary (1 in 64)";
             }
 
-            document.getElementById('result').textContent = resultText;
+            // Add the roll to the roll history
+            rolls.unshift(resultText);
+
+            // Display the result and roll history
+            document.getElementById('result').textContent = `You rolled: ${resultText}`;
+            displayRollHistory();
+        }
+
+        // Function to display the roll history
+        function displayRollHistory() {
+            const rollHistoryContainer = document.getElementById('rollHistory');
+            rollHistoryContainer.innerHTML = "<p>Roll History:</p>";
+            for (let i = 0; i < rolls.length; i++) {
+                const rollItem = document.createElement('div');
+                rollItem.classList.add('rollItem');
+                rollItem.innerHTML = `<span>${rolls[i]}</span><button onclick="deleteRoll(${i})">Delete</button>`;
+                rollHistoryContainer.appendChild(rollItem);
+            }
+        }
+
+        // Function to delete a specific roll
+        function deleteRoll(index) {
+            rolls.splice(index, 1);
+            displayRollHistory();
+        }
+
+        // Function to clear the roll history
+        function clearRollHistory() {
+            rolls = [];
+            displayRollHistory();
         }
     </script>
 </body>
